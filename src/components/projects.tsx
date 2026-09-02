@@ -19,210 +19,12 @@ export interface Repository {
 }
 
 export default function Projects() {
+  const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shivam-iyk";
+
   const [projects, setProjects] = useState<Repository[]>([]);
   const [visibleProjects, setVisibleProjects] = useState<number>(6);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-
-  const pinnedRepos = [
-    "sociial",
-    "lastminprep",
-    "campus-space",
-    "gadget-store",
-    "school-finder",
-    "restmate",
-  ];
-  const excludedRepos = [
-    "portfolio",
-    "portfolio-mern",
-    "portfolio-v2",
-    "inventory-app",
-    "audio-player",
-    "google-oauth",
-    "project-store",
-    "project-store-backend",
-    "sethshivam11",
-    "sda",
-    "razorpay-ui",
-    "todo-list",
-    "sudoku",
-  ];
-  const images = [
-    {
-      name: "gadget-store",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524957/portfolio/chzs9wo4zdhekhzxlb6d.png",
-      repository: "https://github.com/sethshivam11/gadget-store",
-    },
-    {
-      name: "campus-space",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524945/portfolio/rr97kg4geno54vfoo8od.png",
-      repository: "https://github.com/sethshivam11/campus-space",
-    },
-    {
-      name: "lastminprep",
-      image:
-        "https://github.com/sethshivam11/lastminprep/raw/main/public/screenshots/home.png",
-      repository: "https://github.com/sethshivam11/lastminprep",
-    },
-    {
-      name: "grosery",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744526767/portfolio/d3tyvlbexnmwriyesvxz.png",
-      repository: "https://github.com/sethshivam11/grosery",
-    },
-    {
-      name: "2048",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524956/portfolio/h9rvzpva7vck3xv3qlsu.png",
-      repository: "https://github.com/sethshivam11/2048",
-    },
-    {
-      name: "workconnect",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524956/portfolio/tcikh1sw5ntbtdah4wem.png",
-      repository: "https://github.com/sethshivam11/workconnect",
-    },
-    {
-      name: "weather",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524954/portfolio/yfxb4crtpv9efxsgvz6z.png",
-      repository: "https://github.com/sethshivam11/weather",
-    },
-    {
-      name: "moviesandtv",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524954/portfolio/akz8easku4zy45g5llji.png",
-      repository: "https://github.com/sethshivam11/moviesandtv",
-    },
-    {
-      name: "audio-player",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524953/portfolio/mtgmy4xpakva7rzmk1qm.png",
-      repository: "https://github.com/sethshivam11/audio-player",
-    },
-    {
-      name: "newsapp",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524953/portfolio/z2cuelbgpvelz1kevpxb.png",
-      repository: "https://github.com/sethshivam11/newsapp",
-    },
-    {
-      name: "myonline",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524953/portfolio/alchhrpwnp6em3e1kxp4.png",
-      repository: "https://github.com/sethshivam11/myonline",
-    },
-    {
-      name: "robospeaker",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524952/portfolio/cvfoj1mjyqewxzjigt3z.png",
-      repository: "https://github.com/sethshivam11/robospeaker",
-    },
-    {
-      name: "face-recorder",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524948/portfolio/ash8x5colpokhwizeyxf.png",
-      repository: "https://github.com/sethshivam11/face-recorder",
-    },
-    {
-      name: "cloudnotebook",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524946/portfolio/pareilc36ielcwtf4iuc.png",
-      repository: "https://github.com/sethshivam11/cloudnotebook",
-    },
-    {
-      name: "chatapp",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524946/portfolio/rpnomvdasptklgboa5cu.png",
-      repository: "https://github.com/sethshivam11/chatapp",
-    },
-    {
-      name: "social-media-backend",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524945/portfolio/mu7whyi3poqdfnkqfb30.jpg",
-      repository: "https://github.com/sethshivam11/social-media-backend",
-    },
-    {
-      name: "sudoku",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524945/portfolio/zofefvus3aifamouvuqr.png",
-      repository: "https://github.com/sethshivam11/sudoku",
-    },
-    {
-      name: "scholarship",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524945/portfolio/zns3kudmtytjyqpzaz3f.png",
-      repository: "https://github.com/sethshivam11/scholarship",
-    },
-    {
-      name: "copypaste",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524944/portfolio/elema2l0fr33skfkxwuu.png",
-      repository: "https://github.com/sethshivam11/copypaste",
-    },
-    {
-      name: "webrtc-video-chat",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1746718456/portfolio/hj7rc22xuyww2i3ohjzk.avif",
-      repository: "https://github.com/sethshivam11/webrtc-video-chat",
-    },
-    {
-      name: "sociial",
-      image:
-        "https://github.com/sethshivam11/sociial/raw/main/public/hero-light.png",
-      repository: "https://github.com/sethshivam11/sociial",
-    },
-    {
-      name: "todo",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744526839/portfolio/kjvynyx5rkrngx4hvw7w.png",
-      repository: "https://github.com/sethshivam11/todo",
-    },
-    {
-      name: "camera",
-      image:
-        "https://github.com/sethshivam11/camera/raw/main/src/assets/images/camera.jpg",
-      repository: "https://github.com/sethshivam11/camera",
-    },
-    {
-      name: "tasks",
-      image:
-        "https://github.com/sethshivam11/tasks/raw/main/src/assets/images/home-page.jpg",
-      repository: "https://github.com/sethshivam11/tasks",
-    },
-    {
-      name: "calculator",
-      image:
-        "https://github.com/sethshivam11/calculator/raw/main/assets/images/calculator.jpg",
-      repository: "https://github.com/sethshivam11/calculator",
-    },
-    {
-      name: "abcd-pro",
-      image:
-        "https://res.cloudinary.com/dv3qbj0bn/image/upload/v1755412745/Screenshot_2025-08-17_120716_ne0xi9.png",
-      repository: "https://github.com/sethshivam11/abcd-pro",
-    },
-    {
-      name: "school-finder",
-      image:
-        "https://github.com/sethshivam11/school-finder/blob/main/screenshot.png?raw=true",
-      repository: "https://github.com/sethshivam11/school-finder",
-    },
-    {
-      name: "panchang-calendar",
-      image:
-        "https://github.com/sethshivam11/panchang-calendar/blob/main/screenshot.png?raw=true",
-      repository: "https://github.com/sethshivam11/panchang-calendar",
-    },
-    {
-      name: "restmate",
-      image:
-        "https://github.com/sethshivam11/restmate/raw/main/public/screenshot.png",
-      repository: "https://github.com/sethshivam11/restmate",
-    },
-  ];
 
   useEffect(() => {
     async function fetchProjects() {
@@ -245,7 +47,7 @@ export default function Projects() {
         }
 
         const response = await fetch(
-          "https://api.github.com/users/sethshivam11/repos?sort=updated&per_page=50"
+          `https://api.github.com/users/${username}/repos?sort=updated&per_page=50`
         );
 
         if (!response.ok) {
@@ -255,13 +57,11 @@ export default function Projects() {
         const data = await response.json();
 
         const filteredProjects = [
-          ...pinnedRepos.map((name) =>
-            data.find((repo: Repository) => repo.name === name)
-          ),
+          ...data.filter((repo: Repository) => repo.topics.includes("portfolio-featured")),
           ...data.filter(
             (repo: Repository) =>
-              !pinnedRepos.includes(repo.name) &&
-              !excludedRepos.includes(repo.name)
+              !repo.topics.includes("portfolio-featured") &&
+              !repo.topics.includes("portfolio-exclude")
           ),
         ];
 
@@ -309,7 +109,7 @@ export default function Projects() {
             <p className="text-red-500">{error}</p>
             <Button variant="outline" className="mt-4" asChild>
               <Link
-                href="https://github.com/sethshivam11"
+                href="https://github.com/${username}"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -324,7 +124,6 @@ export default function Projects() {
               {projects.slice(0, visibleProjects).map((project, index) => (
                 <ProjectCard
                   project={project}
-                  images={images}
                   index={index}
                   key={index}
                 />
@@ -342,7 +141,7 @@ export default function Projects() {
             <div className="flex justify-center mt-8">
               <Button variant="outline" asChild>
                 <Link
-                  href="https://github.com/sethshivam11"
+                  href="https://github.com/${username}"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

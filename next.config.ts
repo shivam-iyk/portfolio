@@ -11,7 +11,12 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "github.com",
-        pathname: "/sethshivam11/**"
+        pathname: "/**"
+      },
+      {
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+        pathname: "/**"
       },
       {
         protocol: "https",

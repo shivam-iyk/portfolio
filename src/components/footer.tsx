@@ -8,21 +8,22 @@ import Image from "next/image";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shivam-iyk";
 
   const socialLinks = [
     {
       name: "GitHub",
-      url: "https://github.com/sethshivam11",
+      url: username ? `https://github.com/${username}` : "https://github.com/shivam-iyk",
       icon: <Github className="h-5 w-5" />,
     },
     {
       name: "LinkedIn",
-      url: "https://linkedin.com/in/sethshivam11",
+      url: process.env.NEXT_PUBLIC_LINKEDIN_PROFILE || "https://linkedin.com/in/shivam-iyk",
       icon: <Linkedin className="h-5 w-5" />,
     },
     {
       name: "Twitter",
-      url: "https://twitter.com/sethshivam11",
+      url: process.env.NEXT_PUBLIC_X_PROFILE || "https://x.com/shivam_iyk",
       icon: <Twitter className="h-5 w-5" />,
     },
   ];
@@ -31,7 +32,7 @@ export default function Footer() {
     {
       icon: <Mail className="h-5 w-5 text-primary" />,
       title: "Email",
-      value: "legendshivam11@gmail.com",
+      value: process.env.NEXT_PUBLIC_MAIL_ID || "legendshivam11@gmail.com",
       link: "mailto:legendshivam11@gmail.com",
     },
     {
@@ -144,7 +145,7 @@ export default function Footer() {
                 ))}
               </div>
             </div>
-            <a href="https://www.buymeacoffee.com/sethshivam11" target="_blank">
+            <a href={`https://www.buymeacoffee.com/${process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_USERNAME}`} target="_blank">
               <Image
                 src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
                 alt="Buy Me a Coffee"

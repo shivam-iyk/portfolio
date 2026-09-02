@@ -8,6 +8,8 @@ import { ArrowDown, Github, Linkedin, Mail, Twitter } from "lucide-react";
 import HighlightedLine from "./highlighted-line";
 
 export default function Hero() {
+  const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shivam-iyk";
+
   const scrollToSection = (
     e: React.MouseEvent<HTMLAnchorElement>,
     sectionId: string
@@ -25,7 +27,7 @@ export default function Hero() {
   const socialLinks = [
     {
       name: "GitHub",
-      url: process.env.NEXT_PUBLIC_GITHUB_PROFILE || "https://github.com/shivam-iyk",
+      url: username ? `https://github.com/${username}` : "https://github.com/shivam-iyk",
       icon: <Github className="h-5 w-5" />,
     },
     {
