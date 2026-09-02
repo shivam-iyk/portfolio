@@ -25,22 +25,22 @@ export default function Hero() {
   const socialLinks = [
     {
       name: "GitHub",
-      url: "https://github.com/sethshivam11",
+      url: process.env.NEXT_PUBLIC_GITHUB_PROFILE || "https://github.com/shivam-iyk",
       icon: <Github className="h-5 w-5" />,
     },
     {
       name: "LinkedIn",
-      url: "https://linkedin.com/in/sethshivam11",
+      url: process.env.NEXT_PUBLIC_LINKEDIN_PROFILE || "https://linkedin.com/in/shivam-iyk",
       icon: <Linkedin className="h-5 w-5" />,
     },
     {
       name: "Twitter",
-      url: "https://twitter.com/sethshivam11",
+      url: process.env.NEXT_PUBLIC_X_PROFILE || "https://x.com/shivam_iyk",
       icon: <Twitter className="h-5 w-5" />,
     },
     {
       name: "Mail",
-      url: "mailto:legendshivam11@gmail.com",
+      url: process.env.NEXT_PUBLIC_MAIL_ID || "mailto:legendshivam11@gmail.com",
       icon: <Mail className="h-5 w-5" />,
     },
   ];
