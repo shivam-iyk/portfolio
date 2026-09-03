@@ -26,158 +26,139 @@ function ProjectCard({
   const images = [
     {
       name: "gadget-store",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524957/portfolio/chzs9wo4zdhekhzxlb6d.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524957/portfolio/chzs9wo4zdhekhzxlb6d.png`,
       repository: `https://github.com/${username}/gadget-store`,
     },
     {
       name: "campus-space",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524945/portfolio/rr97kg4geno54vfoo8od.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524945/portfolio/rr97kg4geno54vfoo8od.png`,
       repository: `https://github.com/${username}/campus-space`,
     },
     {
       name: "grosery",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744526767/portfolio/d3tyvlbexnmwriyesvxz.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744526767/portfolio/d3tyvlbexnmwriyesvxz.png`,
       repository: `https://github.com/${username}/grosery`,
     },
     {
       name: "2048",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524956/portfolio/h9rvzpva7vck3xv3qlsu.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524956/portfolio/h9rvzpva7vck3xv3qlsu.png`,
       repository: `https://github.com/${username}/2048`,
     },
     {
       name: "workconnect",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524956/portfolio/tcikh1sw5ntbtdah4wem.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524956/portfolio/tcikh1sw5ntbtdah4wem.png`,
       repository: `https://github.com/${username}/workconnect`,
     },
     {
       name: "weather",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524954/portfolio/yfxb4crtpv9efxsgvz6z.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524954/portfolio/yfxb4crtpv9efxsgvz6z.png`,
       repository: `https://github.com/${username}/weather`,
     },
     {
       name: "moviesandtv",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524954/portfolio/akz8easku4zy45g5llji.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524954/portfolio/akz8easku4zy45g5llji.png`,
       repository: `https://github.com/${username}/moviesandtv`,
     },
     {
       name: "newsapp",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524953/portfolio/z2cuelbgpvelz1kevpxb.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524953/portfolio/z2cuelbgpvelz1kevpxb.png`,
       repository: `https://github.com/${username}/newsapp`,
     },
     {
       name: "myonline",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524953/portfolio/alchhrpwnp6em3e1kxp4.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524953/portfolio/alchhrpwnp6em3e1kxp4.png`,
       repository: `https://github.com/${username}/myonline`,
     },
     {
       name: "robospeaker",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524952/portfolio/cvfoj1mjyqewxzjigt3z.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524952/portfolio/cvfoj1mjyqewxzjigt3z.png`,
       repository: `https://github.com/${username}/robospeaker`,
     },
     {
       name: "cloudnotebook",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524946/portfolio/pareilc36ielcwtf4iuc.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524946/portfolio/pareilc36ielcwtf4iuc.png`,
       repository: `https://github.com/${username}/cloudnotebook`,
     },
     {
       name: "chatapp",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524946/portfolio/rpnomvdasptklgboa5cu.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524946/portfolio/rpnomvdasptklgboa5cu.png`,
       repository: `https://github.com/${username}/chatapp`,
     },
     {
       name: "social-media-backend",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524945/portfolio/mu7whyi3poqdfnkqfb30.jpg`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524945/portfolio/mu7whyi3poqdfnkqfb30.jpg`,
       repository: `https://github.com/${username}/social-media-backend`,
     },
     {
       name: "sudoku",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524945/portfolio/zofefvus3aifamouvuqr.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524945/portfolio/zofefvus3aifamouvuqr.png`,
       repository: `https://github.com/${username}/sudoku`,
     },
     {
       name: "scholarship",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524945/portfolio/zns3kudmtytjyqpzaz3f.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524945/portfolio/zns3kudmtytjyqpzaz3f.png`,
       repository: `https://github.com/${username}/scholarship`,
     },
     {
       name: "copypaste",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524944/portfolio/elema2l0fr33skfkxwuu.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524944/portfolio/elema2l0fr33skfkxwuu.png`,
       repository: `https://github.com/${username}/copypaste`,
     },
     {
       name: "web-connect",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1746718456/portfolio/hj7rc22xuyww2i3ohjzk.avif`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1746718456/portfolio/hj7rc22xuyww2i3ohjzk.avif`,
       repository: `https://github.com/${username}/webrtc-video-chat`,
     },
     {
       name: "lastminprep",
-      image:
-        "https://github.com/sethshivam11/lastminprep/raw/main/public/screenshots/home.png",
-      repository: "https://github.com/sethshivam11/lastminprep",
+      image: `https://raw.githubusercontent.com/${username}/lastminprep/main/public/screenshots/home.png`,
+      repository: `https://github.com/${username}/lastminprep`,
     },
     {
       name: "sociial",
-      image:
-        `https://raw.githubusercontent.com/${username}/sociial/main/public/hero-light.png`,
+      image: `https://raw.githubusercontent.com/${username}/sociial/main/public/hero-light.png`,
       repository: `https://github.com/${username}/sociial`,
     },
     {
       name: "todo",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744526839/portfolio/kjvynyx5rkrngx4hvw7w.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744526839/portfolio/kjvynyx5rkrngx4hvw7w.png`,
       repository: `https://github.com/${username}/todo`,
     },
     {
       name: "camera",
-      image:
-        `https://raw.githubusercontent.com/${username}/camera/main/src/assets/images/camera.jpg`,
+      image: `https://raw.githubusercontent.com/${username}/camera/main/src/assets/images/camera.jpg`,
       repository: `https://github.com/${username}/camera`,
     },
     {
       name: "tasks",
-      image:
-        `https://raw.githubusercontent.com/${username}/tasks/raw/main/src/assets/images/home-page.jpg`,
+      image: `https://raw.githubusercontent.com/${username}/tasks/main/src/assets/images/home-page.jpg`,
       repository: `https://github.com/${username}/tasks`,
     },
     {
       name: "calculator",
-      image:
-        `https://raw.githubusercontent.com/${username}/calculator/raw/main/assets/images/calculator.jpg`,
+      image: `https://raw.githubusercontent.com/${username}/calculator/main/assets/images/calculator.jpg`,
       repository: `https://github.com/${username}/calculator`,
     },
     {
       name: "abcd-pro",
-      image:
-        `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1755412745/Screenshot_2025-08-17_120716_ne0xi9.png`,
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1755412745/Screenshot_2025-08-17_120716_ne0xi9.png`,
       repository: `https://github.com/${username}/abcd-pro`,
     },
     {
       name: "school-finder",
-      image:
-        `https://raw.githubusercontent.com/${username}/school-finder/blob/main/screenshot.png?raw=true`,
+      image: `https://raw.githubusercontent.com/${username}/school-finder/main/screenshot.png`,
       repository: `https://github.com/${username}/school-finder`,
+    },
+    {
+      name: "learn-loop",
+      image:
+        "https://raw.githubusercontent.com/${username}/learn-loop/main/frontend/public/screenshot.png",
+      repository: `https://github.com/${username}/learn-loop`,
     },
   ];
 
   const topics = useMemo(() => {
-    return project.topics.filter((item) => !item.includes("portfolio-"))
+    return project.topics.filter((item) => !item.includes("portfolio-"));
   }, [project]);
 
   const getProjectImage = (name: string) => {
@@ -219,7 +200,9 @@ function ProjectCard({
           </p>
           <div className="flex space-between items-center w-full mt-4">
             {project.language && (
-              <Badge variant="secondary" className="mr-2">{project.language}</Badge>
+              <Badge variant="secondary" className="mr-2">
+                {project.language}
+              </Badge>
             )}
             <div>
               {topics.length > 0 &&

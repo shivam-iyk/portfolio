@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Github, Loader2 } from "lucide-react";
 import Link from "next/link";
 import ProjectCard from "./project-card";
+import { useQuery } from "@tanstack/react-query";
+import { getProjects } from "@/services/api";
 
 export interface Repository {
   id: number;
@@ -16,73 +18,37 @@ export interface Repository {
   language: string;
   stargazers_count: number;
   forks_count: number;
+  created_at: string;
 }
 
 export default function Projects() {
   const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shivam-iyk";
 
-  const [projects, setProjects] = useState<Repository[]>([]);
   const [visibleProjects, setVisibleProjects] = useState<number>(6);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchProjects() {
-      try {
-        setLoading(true);
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["projects"],
+    queryFn: () => getProjects(username),
+    staleTime: 1000 * 60 * 15, // 15 minutes
+    refetchOnWindowFocus: false,
+  });
 
-        const cacheKey = "projects_cache";
-        const cachedData = localStorage.getItem(cacheKey);
-        const cacheTimestamp = localStorage.getItem(`${cacheKey}_timestamp`);
-
-        if (cachedData && cacheTimestamp) {
-          const now = new Date().getTime();
-          const cacheAge = now - parseInt(cacheTimestamp, 10);
-
-          if (cacheAge < 3600000) {
-            setProjects(JSON.parse(cachedData));
-            setLoading(false);
-            return;
-          }
-        }
-
-        const response = await fetch(
-          `https://api.github.com/users/${username}/repos?sort=updated&per_page=50`
+  const projects = useMemo(() => {
+    if (!data) return [];
+    const featured = data
+      .filter((repo: Repository) => repo.topics.includes("portfolio-featured"))
+      .sort((a: Repository, b: Repository) => {
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch projects");
-        }
-
-        const data = await response.json();
-
-        const filteredProjects = [
-          ...data.filter((repo: Repository) => repo.topics.includes("portfolio-featured")),
-          ...data.filter(
-            (repo: Repository) =>
-              !repo.topics.includes("portfolio-featured") &&
-              !repo.topics.includes("portfolio-exclude")
-          ),
-        ];
-
-        localStorage.setItem(cacheKey, JSON.stringify(filteredProjects));
-        localStorage.setItem(
-          `${cacheKey}_timestamp`,
-          new Date().getTime().toString()
-        );
-
-        setProjects(filteredProjects);
-        setError(null);
-      } catch (err) {
-        setError("Failed to load projects. Please try again later.");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchProjects();
-  }, []);
+      });
+    const excluded = data.filter(
+      (repo: Repository) =>
+        !repo.topics.includes("portfolio-featured") &&
+        !repo.topics.includes("portfolio-exclude"),
+    );
+    return [...featured, ...excluded];
+  }, [data]);
 
   const handleViewMore = () => {
     setVisibleProjects((prev) => Math.min(prev + 3, projects.length));
@@ -100,13 +66,16 @@ export default function Projects() {
           </p>
         </div>
 
-        {loading ? (
+        {isLoading ? (
           <div className="flex justify-center items-center py-20">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
-        ) : error ? (
+        ) : isError ? (
           <div className="text-center py-10">
-            <p className="text-red-500">{error}</p>
+            <p className="text-red-500">
+              {error?.message ||
+                "Something went wrong. Please try again later."}
+            </p>
             <Button variant="outline" className="mt-4" asChild>
               <Link
                 href="https://github.com/${username}"
@@ -122,11 +91,7 @@ export default function Projects() {
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-background">
               {projects.slice(0, visibleProjects).map((project, index) => (
-                <ProjectCard
-                  project={project}
-                  index={index}
-                  key={index}
-                />
+                <ProjectCard project={project} index={index} key={index} />
               ))}
             </div>
 

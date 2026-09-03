@@ -9,6 +9,7 @@ import Image from "next/image";
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shivam-iyk";
+  const mailId = process.env.NEXT_PUBLIC_MAIL_ID || "legendshivam11@gmail.com";
 
   const socialLinks = [
     {
@@ -32,8 +33,8 @@ export default function Footer() {
     {
       icon: <Mail className="h-5 w-5 text-primary" />,
       title: "Email",
-      value: process.env.NEXT_PUBLIC_MAIL_ID || "legendshivam11@gmail.com",
-      link: "mailto:legendshivam11@gmail.com",
+      value: mailId,
+      link: `mailto:${mailId}`,
     },
     {
       icon: <MapPin className="h-5 w-5 text-primary" />,

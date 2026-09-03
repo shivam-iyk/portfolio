@@ -12,9 +12,11 @@ import { useMobile } from "@/hooks/use-mobile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
   const isMobile = useMobile();
+  const pathname = usePathname();
+  const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shivam-iyk";
+
+  const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const [isClickScrolling, setIsClickScrolling] = useState(false);
 
@@ -69,7 +71,7 @@ export default function Navbar() {
 
   const scrollToSection = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    sectionId: string
+    sectionId: string,
   ) => {
     e.preventDefault();
 
@@ -104,11 +106,11 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           <Avatar>
             <AvatarImage
-              src="https://github.com/sethshivam11.png"
+              src={`https://github.com/${username}.png`}
               alt="GitHub Avatar"
               draggable={false}
             />
-            <AvatarFallback>SH</AvatarFallback>
+            <AvatarFallback>S</AvatarFallback>
           </Avatar>
           <Link href="/" className="font-bold text-xl tracking-tighter">
             Shivam
@@ -126,7 +128,7 @@ export default function Navbar() {
                 "text-sm font-medium transition-colors hover:text-primary relative",
                 activeSection === item.id
                   ? "text-primary"
-                  : "text-muted-foreground"
+                  : "text-muted-foreground",
               )}
             >
               {item.name}
@@ -168,7 +170,7 @@ export default function Navbar() {
                     "py-2 text-sm font-medium transition-colors hover:text-primary",
                     activeSection === item.id
                       ? "text-primary"
-                      : "text-muted-foreground"
+                      : "text-muted-foreground",
                   )}
                 >
                   {item.name}

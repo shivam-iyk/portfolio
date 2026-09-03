@@ -17,58 +17,16 @@ import { Send, Mail, MapPin, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useMutation } from "@tanstack/react-query";
+import { sendMessage } from "@/services/api";
 
 export default function Contact() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch("/api/create", {
-        method: "POST",
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        toast.success("Message sent!", {
-          description: "Thanks for reaching out. I'll get back to you soon.",
-        });
-
-        setFormData({
-          name: "",
-          email: "",
-          message: "",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong", {
-        description: "Your message couldn't be sent. Please try again.",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
+  const mailId = process.env.NEXT_PUBLIC_MAIL_ID || "legendshivam11@gmail.com";
   const contactInfo = [
     {
       icon: <Mail className="h-5 w-5" />,
-      text: "legendshivam11@gmail.com",
-      href: "mailto:legendshivam11@gmail.com",
+      text: mailId,
+      href: `mailto:${mailId}`,
     },
     {
       icon: <MapPin className="h-5 w-5" />,
@@ -76,6 +34,38 @@ export default function Contact() {
       href: "https://google.com/maps/place/India",
     },
   ];
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    sendMessageMutation.mutate();
+  };
+
+  const sendMessageMutation = useMutation({
+    mutationFn: () => sendMessage(form),
+    onSuccess: () => {
+      toast.success("Message sent!", {
+        description: "Thanks for reaching out. I'll get back to you soon.",
+      });
+
+      setForm({
+        name: "",
+        email: "",
+        message: "",
+      });
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Something went wrong", {
+        description: "Your message couldn't be sent. Please try again.",
+      });
+    },
+  });
 
   return (
     <section id="contact" className="py-20 bg-muted/50">
@@ -128,8 +118,10 @@ export default function Contact() {
                       name="name"
                       placeholder="Your name"
                       required
-                      value={formData.name}
-                      onChange={handleChange}
+                      value={form.name}
+                      onChange={(e) =>
+                        setForm((prev) => ({ ...prev, name: e.target.value }))
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -140,8 +132,10 @@ export default function Contact() {
                       type="email"
                       placeholder="Your email"
                       required
-                      value={formData.email}
-                      onChange={handleChange}
+                      value={form.email}
+                      onChange={(e) =>
+                        setForm((prev) => ({ ...prev, email: e.target.value }))
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -152,16 +146,21 @@ export default function Contact() {
                       placeholder="Your message"
                       rows={5}
                       required
-                      value={formData.message}
-                      onChange={handleChange}
+                      value={form.message}
+                      onChange={(e) =>
+                        setForm((prev) => ({
+                          ...prev,
+                          message: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                   <Button
                     type="submit"
                     className="w-full"
-                    disabled={isSubmitting}
+                    disabled={sendMessageMutation.isPending}
                   >
-                    {isSubmitting ? (
+                    {sendMessageMutation.isPending ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         Sending...

@@ -9,6 +9,8 @@ import HighlightedLine from "./highlighted-line";
 
 export default function Hero() {
   const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shivam-iyk";
+  const mailId = process.env.NEXT_PUBLIC_MAIL_ID || "legendshivam11@gmail.com";
+  const resume = process.env.NEXT_PUBLIC_RESUME_URL || null;
 
   const scrollToSection = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -42,11 +44,10 @@ export default function Hero() {
     },
     {
       name: "Mail",
-      url: process.env.NEXT_PUBLIC_MAIL_ID || "mailto:legendshivam11@gmail.com",
+      url: `mailto:${mailId}`,
       icon: <Mail className="h-5 w-5" />,
     },
   ];
-  const resume = process.env.NEXT_PUBLIC_RESUME_URL || null;
 
   return (
     <section
