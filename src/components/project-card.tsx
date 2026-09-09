@@ -152,7 +152,7 @@ function ProjectCard({
     {
       name: "learn-loop",
       image:
-        "https://raw.githubusercontent.com/${username}/learn-loop/main/frontend/public/screenshot.png",
+        `https://raw.githubusercontent.com/${username}/learn-loop/main/frontend/public/screenshot.png`,
       repository: `https://github.com/${username}/learn-loop`,
     },
   ];
