@@ -5,6 +5,18 @@ import Image from "next/image";
 import { Layout, Server, Cog } from "lucide-react";
 
 export default function Skills() {
+  const invertIcons = [
+    "Expo",
+    "Cloudinary",
+    "Socket.IO",
+    "Render",
+    "Vercel",
+    "GitHub",
+    "ShadCN",
+    "React Hook Form",
+    "Zod",
+    "ExpressJS"
+  ];
   const skillCategories = [
     {
       title: "Frontend & Languages",
@@ -69,6 +81,10 @@ export default function Skills() {
           icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
         },
         {
+          name: "PostgresSQL",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
+        },
+        {
           name: "Cloudinary",
           icon: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/cloudinary.svg",
         },
@@ -99,12 +115,20 @@ export default function Skills() {
           icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
         },
         {
-          name: "ShadCN",
-          icon: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/shadcnui.svg",
+          name: "VS Code",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg",
         },
         {
-          name: "React Hook Form",
-          icon: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/reacthookform.svg",
+          name: "Vite",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg",
+        },
+        {
+          name: "Postman",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg",
+        },
+        {
+          name: "ShadCN",
+          icon: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/shadcnui.svg",
         },
         {
           name: "Zod",
@@ -113,6 +137,10 @@ export default function Skills() {
         {
           name: "Redux Toolkit",
           icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redux/redux-original.svg",
+        },
+        {
+          name: "Axios",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/axios/axios-plain.svg",
         },
       ],
     },
@@ -157,15 +185,7 @@ export default function Skills() {
                         alt={skill.name}
                         width={24}
                         height={24}
-                        className={`object-contain ${
-                          skill.name === "Framer Motion" ||
-                          skill.name === "REST API" ||
-                          skill.name === "JWT" ||
-                          skill.name === "Prisma" ||
-                          skill.name === "Mongoose"
-                            ? "dark:invert"
-                            : ""
-                        }`}
+                        className={`object-contain ${invertIcons.includes(skill.name) ? "dark:invert" : ""}`}
                       />
                     </div>
                     <span className="font-medium truncate">{skill.name}</span>

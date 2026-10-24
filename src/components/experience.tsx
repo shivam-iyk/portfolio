@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, ChevronRight } from "lucide-react";
+import { Calendar } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -10,30 +10,36 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 
 export default function Experience() {
   const experiences = [
     {
-      title: "Web Developer Intern",
-      company: "DU Student Helper",
-      period: "June 2024 - September 2024",
-      description: [
-        "Enhanced user engagement through intuitive UI/UX design and developed 4+ unique feature-rich pages.",
-        "Improved a platform catering to 10,000+ DU students and 4,00,000+ CUET aspirants.",
-        "Contributed to achieving the necessary traffic for Google AdSense approval.",
-      ],
-      skills: ["Next.js", "Figma", "Tailwind"],
+      title: "Associate Software Engineer",
+      company: "Accenture",
+      period: "February 2025 - Present",
+      description:
+        "Developed and contributed to an e-commerce MERN stack project by building multiple features and reusable components. Additionally, received cross-training in Adobe Analytics to implement website tracking and analytics.",
+      skills: ["Adobe Analytics", "MERN"],
+      image: "/accenture.png",
     },
     {
       title: "Web Developer Intern",
       company: "House of Couton Pvt. Ltd.",
       period: "January 2025 - April 2025",
-      description: [
-        "Learned extensively about the MediaRecorder API on the web for recording media streams.",
-        "Explored the Camera API and audio/video streams on the web for handling video capture.",
-        "Learned automation testing using Selenium WebDriver for web application automation testing.",
-      ],
+      description:
+        "Gained hands-on experience with the MediaRecorder and Camera APIs for capturing and recording audio/video streams, and learned Selenium WebDriver for automated web application testing.",
       skills: ["Next.js", "Tailwind", "Selenium WebDriver"],
+      image: "/houseofcouton.png",
+    },
+    {
+      title: "Web Developer Intern",
+      company: "DU Student Helper",
+      period: "June 2024 - September 2024",
+      description:
+        "Enhanced user engagement by developing 4+ feature-rich pages with intuitive UI/UX, improving a platform serving 10,000+ DU students and 4,00,000+ CUET aspirants, and contributing to Google AdSense approval through increased website traffic.",
+      skills: ["Next.js", "Figma", "Tailwind"],
+      image: "/dustudenthelper.png",
     },
   ];
 
@@ -61,8 +67,15 @@ export default function Experience() {
               className="mb-8"
             >
               <Card>
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between items-start flex-col sm:flex-row gap-2">
+                <CardHeader className="flex items-center gap-4 pb-2">
+                  <Image
+                    src={exp.image}
+                    alt=""
+                    width="100"
+                    height="100"
+                    className="size-10 object-contain"
+                  />
+                  <div className="flex flex-1 justify-between items-start flex-col sm:flex-row gap-2">
                     <div>
                       <CardTitle className="text-xl font-bold">
                         {exp.title}
@@ -78,14 +91,7 @@ export default function Experience() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2 mt-2">
-                    {exp.description.map((item, i) => (
-                      <li key={i} className="flex">
-                        <ChevronRight className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <p className="mt-2">{exp.description}</p>
                   <div className="flex flex-wrap gap-2 mt-4">
                     {exp.skills.map((skill) => (
                       <Badge key={skill} variant="secondary">
