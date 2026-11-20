@@ -5,36 +5,55 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail, Twitter } from "lucide-react";
-import HighlightedLine from "./highlighted-line";
+import { Abril_Fatface, Dynalight, Lora } from "next/font/google";
+import { cn, scrollToSection } from "@/lib/utils";
+import CardSwap from "./ui/card-swap";
+import { useTheme } from "next-themes";
+import Grainient from "./ui/grainient";
+
+const dynalight = Dynalight({ subsets: ["latin"], weight: "400" });
+const abrilFlatface = Abril_Fatface({ subsets: ["latin"], weight: "400" });
+const lora = Lora({ subsets: ["latin"], weight: "400" });
 
 export default function Hero() {
   const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shivam-iyk";
   const mailId = process.env.NEXT_PUBLIC_MAIL_ID || "legendshivam11@gmail.com";
   const resume = process.env.NEXT_PUBLIC_RESUME_URL || null;
 
-  const scrollToSection = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    sectionId: string
-  ) => {
-    e.preventDefault();
-    const element = document.getElementById(sectionId);
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop,
-        behavior: "smooth",
-      });
-    }
-  };
+  const { theme } = useTheme();
+
+  const projectCards = [
+    {
+      title: "Gadget Store",
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524957/portfolio/chzs9wo4zdhekhzxlb6d.png`,
+    },
+    {
+      title: "Sociial",
+      image: `https://raw.githubusercontent.com/shivam-iyk/sociial/main/public/hero-dark.png`,
+    },
+    {
+      title: "Work Connect",
+      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524956/portfolio/tcikh1sw5ntbtdah4wem.png`,
+    },
+    {
+      title: "LastMinPrep",
+      image: `https://raw.githubusercontent.com/${username}/lastminprep/main/public/screenshots/home.png`,
+    },
+  ];
 
   const socialLinks = [
     {
       name: "GitHub",
-      url: username ? `https://github.com/${username}` : "https://github.com/shivam-iyk",
+      url: username
+        ? `https://github.com/${username}`
+        : "https://github.com/shivam-iyk",
       icon: <Github className="h-5 w-5" />,
     },
     {
       name: "LinkedIn",
-      url: process.env.NEXT_PUBLIC_LINKEDIN_PROFILE || "https://linkedin.com/in/shivam-iyk",
+      url:
+        process.env.NEXT_PUBLIC_LINKEDIN_PROFILE ||
+        "https://linkedin.com/in/shivam-iyk",
       icon: <Linkedin className="h-5 w-5" />,
     },
     {
@@ -54,6 +73,31 @@ export default function Hero() {
       id="hero"
       className="relative min-h-[95dvh] flex items-center overflow-hidden"
     >
+      <div className="absolute top-0 left-0 w-full max-h-screen overflow-hidden">
+        <Grainient
+          className="min-h-screen"
+         colors={["#171717", "#397A9B", "#A5DFF2", "#E0F5FC"]}
+          angle={55}
+          flow={0.8}
+          silk={0.35}
+          grainAmount={0.08}
+          type="linear"
+          bands={1}
+          softness={1}
+          scale={1}
+          speed={1}
+          grainSize={1.2}
+          grainAnimated
+          contrast={1}
+          saturation={1}
+          variation={0}
+          interactive
+          stir={1}
+          clickSwirl
+          intro
+          lightMode={true}
+        />
+      </div>
       <div className="container md:px-6 z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="flex flex-col space-y-8">
@@ -62,26 +106,22 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h2 className="text-2xl md:text-3xl font-medium mb-2 flex items-center">
-                Hello there{" "}
-                <motion.span
-                  animate={{ rotate: [0, 20, 0, 20, 0] }}
-                  transition={{
-                    duration: 1.5,
-                    times: [0, 0.2, 0.4, 0.6, 0.8],
-                    repeat: 1,
-                    repeatDelay: 3,
-                  }}
-                  className="inline-block ml-2"
-                >
-                  👋
-                </motion.span>
+              <h2
+                className={cn(
+                  "text-5xl md:text-6xl font-medium mb-2 flex items-center",
+                  dynalight.className,
+                )}
+              >
+                Hi
               </h2>
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tighter">
-                I&apos;m{" "}
-                <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
-                  Shivam
-                </span>
+              <h1
+                className={cn(
+                  "text-6xl md:text-7xl font-bold tracking-tighter relative w-fit",
+                  abrilFlatface.className,
+                )}
+              >
+                I&apos;m <span className="text-black">Shivam</span>
+                <div className="absolute -rotate-4 bg-[#ffe847] md:w-60 w-50 md:h-20 h-18 top-0 -right-2 -z-10" />
               </h1>
             </motion.div>
 
@@ -90,10 +130,16 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <p className="text-xl md:text-2xl text-muted-foreground">
-                I create engaging, responsive web experiences with modern
-                technologies. Passionate about clean code and innovative
-                solutions that make a difference.
+              <p
+                className={cn(
+                  "text-xl md:text-2xl text-muted-foreground",
+                  lora.className,
+                )}
+              >
+                I build modern, scalable web applications by turning ideas into
+                functional digital experiences. Passionate about solving
+                problems through clean code, thoughtful design, and continuous
+                learning.
               </p>
             </motion.div>
 
@@ -103,25 +149,23 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4"
             >
-              <Button asChild size="lg">
-                <Link
-                  href="#projects"
-                  onClick={(e) => scrollToSection(e, "projects")}
-                >
-                  View My Work
-                </Link>
+              <Button
+                size="lg"
+                onClick={() => scrollToSection("#projects")}
+              >
+                View Projects
               </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link
-                  href={resume ?? "#contact"}
-                  target={resume ? "_blank" : "_self"}
-                  onClick={(e) =>
-                    resume ? null : scrollToSection(e, "contact")
-                  }
-                >
-                  {resume ? "Get Resume" : "Get in Touch"}
-                </Link>
-              </Button>
+              {resume ? (
+                <Button size="lg" variant="outline" asChild>
+                  <Link href={resume} target="_blank">
+                    Resume
+                  </Link>
+                </Button>
+              ) : (
+                <Button onClick={() => scrollToSection("#contact")}>
+                  Get in Touch
+                </Button>
+              )}
             </motion.div>
 
             <motion.div
@@ -151,104 +195,33 @@ export default function Hero() {
             transition={{ duration: 1 }}
             className="hidden md:block"
           >
-            <CodeEditorAnimation />
+            <CardSwap
+              items={projectCards}
+              width={600}
+              height={400}
+              cardDistance={80}
+              verticalDistance={80}
+              skewAmount={3}
+              depth={80}
+              theme={theme === "dark" ? "dark" : "light"}
+            />
           </motion.div>
         </div>
 
         <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
           <div className="animate-bounce">
-            <Link
-              href="#skills"
-              onClick={(e) => scrollToSection(e, "skills")}
+            <Button
+              size="icon"
+              variant="ghost"
+              className="rounded-full"
               aria-label="Scroll to Skills section"
+              onClick={() => scrollToSection("#skills")}
             >
-              <ArrowDown className="h-8 w-8 text-primary" />
-            </Link>
+              <ArrowDown className="text-primary sm:size-8 size-6" />
+            </Button>
           </div>
         </div>
       </div>
     </section>
   );
 }
-
-const CodeEditorAnimation = () => {
-  const codeLines = [
-    "function Portfolio() {",
-    "  const skills = ['React', 'Next.js', 'TypeScript'];",
-    "  const passion = 'Building amazing web experiences';",
-    " ",
-    "  return (",
-    "    <Developer",
-    "      name='Shivam'",
-    "      skills={skills}",
-    "      passion={passion}",
-    "    />",
-    "  );",
-    "}",
-    " ",
-  ];
-
-  return (
-    <div className="w-full h-[400px] rounded-xl border overflow-hidden bg-[#2d2d2d] shadow-lg">
-      <div className="flex items-center justify-between px-4 py-2 bg-[#292929] border-b border-stone-700">
-        <div className="flex items-center space-x-2">
-          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-        </div>
-        <div className="text-xs font-medium text-white">portfolio.tsx</div>
-        <div className="text-xs text-muted-foreground">React • TypeScript</div>
-      </div>
-
-      <div className="p-4 font-mono text-sm overflow-hidden h-[calc(100%-40px)]">
-        <div className="flex items-center gap-2">
-          <div className="flex flex-col items-center justify-center gap-[0.05rem] border-r-2 border-stone-700 text-muted-foreground select-none">
-            {Array.from({ length: codeLines.length }).map((_, index) => (
-              <span key={index} className="mr-2">
-                {index + 1}
-              </span>
-            ))}
-          </div>
-          <div className="relative">
-            {codeLines.map((line, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="flex"
-              >
-                <TypewriterText text={line} delay={index * 0.5} />
-              </motion.div>
-            ))}
-            <motion.div
-              className="absolute bottom-0 w-2 h-4 bg-white"
-              animate={{ opacity: [1, 0, 1] }}
-              transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY }}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const TypewriterText = ({
-  text,
-  delay = 0,
-}: {
-  text: string;
-  delay?: number;
-}) => {
-  return (
-    <motion.span
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay, duration: 0.2 }}
-      className="code-block text-wrap"
-      suppressHydrationWarning
-    >
-      <HighlightedLine line={text} />
-    </motion.span>
-  );
-};

@@ -13,28 +13,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Send, Mail, MapPin, Loader2 } from "lucide-react";
+import { Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { sendMessage } from "@/services/api";
+import Lanyard from "./ui/lanyard";
+import { cn } from "@/lib/utils";
+import { Abril_Fatface } from "next/font/google";
+
+const abrilFlatface = Abril_Fatface({ weight: ["400"], subsets: ["latin"] });
 
 export default function Contact() {
-  const mailId = process.env.NEXT_PUBLIC_MAIL_ID || "legendshivam11@gmail.com";
-  const contactInfo = [
-    {
-      icon: <Mail className="h-5 w-5" />,
-      text: mailId,
-      href: `mailto:${mailId}`,
-    },
-    {
-      icon: <MapPin className="h-5 w-5" />,
-      text: "India",
-      href: "https://google.com/maps/place/India",
-    },
-  ];
-
+  const profile = process.env.NEXT_PUBLIC_PROFILE_IMAGE || null;
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -68,114 +59,133 @@ export default function Contact() {
   });
 
   return (
-    <section id="contact" className="py-20 bg-muted/50">
-      <div className="container px-4 md:px-6">
-        <div className="flex flex-col items-center text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
-            Get In Touch
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl">
-            Have a project in mind or just want to say hello? Feel free to reach
-            out!
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-3 mt-6">
-            {contactInfo.map((item, index) => (
-              <Link
-                href={item.href}
-                key={index}
-                className="flex items-center gap-2 bg-card px-4 py-2 rounded-full border"
-                target="_blank"
-              >
-                {item.icon}
-                <span>{item.text}</span>
-              </Link>
-            ))}
-          </div>
+    <section id="contact" className="bg-[#F1F3F4] relative overflow-hidden">
+      {profile && (
+        <div className="absolute inset-0 z-0 [&_canvas]:touch-pan-y max-md:hidden">
+          <Lanyard
+            className="h-full w-full"
+            frontImage={profile}
+            backImage="/android-chrome-512x512.png"
+            strapImage="/android-chrome-512x512.png"
+            imageFit="cover"
+            cardColor="#ffffff"
+            orientation="portrait"
+            finish="glossy"
+            cornerRadius={0.3}
+            size={0.6}
+            anchor="right"
+            strapLength={0.5}
+            strapColor="#111111"
+            strapWidth={0.65}
+            metal="silver"
+            gravity={1}
+            damping={0.5}
+            elasticity={0.5}
+            breeze={0.8}
+            interactive
+            intro
+          />
         </div>
+      )}
+      <div className="container relative z-10 px-4 md:px-6 pointer-events-none">
+        <div className={`py-20 w-full ${profile ? "md:w-1/2" : ""}`}>
+          <div className="flex flex-col items-center text-center mb-12">
+            <h2
+              className={cn(
+                "text-3xl md:text-4xl font-bold tracking-tighter",
+                abrilFlatface.className,
+              )}
+            >
+              Let&apos;s Connect
+            </h2>
+          </div>
 
-        <div className="max-w-xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <Card>
-              <CardHeader>
-                <CardTitle>Send Me a Message</CardTitle>
-                <CardDescription>
-                  Fill out the form below and I&apos;ll get back to you as soon
-                  as possible.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      placeholder="Your name"
-                      required
-                      value={form.name}
-                      onChange={(e) =>
-                        setForm((prev) => ({ ...prev, name: e.target.value }))
-                      }
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      placeholder="Your email"
-                      required
-                      value={form.email}
-                      onChange={(e) =>
-                        setForm((prev) => ({ ...prev, email: e.target.value }))
-                      }
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="message">Message</Label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      placeholder="Your message"
-                      rows={5}
-                      required
-                      value={form.message}
-                      onChange={(e) =>
-                        setForm((prev) => ({
-                          ...prev,
-                          message: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={sendMessageMutation.isPending}
-                  >
-                    {sendMessageMutation.isPending ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="mr-2 h-4 w-4" />
-                        Send Message
-                      </>
-                    )}
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </motion.div>
+          <div className="max-w-xl mx-auto pointer-events-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle>Send Me a Message</CardTitle>
+                  <CardDescription>
+                    Fill out the form below and I&apos;ll get back to you as
+                    soon as possible.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Name</Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        placeholder="Your name"
+                        required
+                        value={form.name}
+                        onChange={(e) =>
+                          setForm((prev) => ({ ...prev, name: e.target.value }))
+                        }
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="Your email"
+                        required
+                        value={form.email}
+                        onChange={(e) =>
+                          setForm((prev) => ({
+                            ...prev,
+                            email: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="message">Message</Label>
+                      <Textarea
+                        id="message"
+                        name="message"
+                        placeholder="Your message"
+                        rows={5}
+                        required
+                        value={form.message}
+                        onChange={(e) =>
+                          setForm((prev) => ({
+                            ...prev,
+                            message: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      disabled={sendMessageMutation.isPending}
+                    >
+                      {sendMessageMutation.isPending ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="mr-2 h-4 w-4" />
+                          Send Message
+                        </>
+                      )}
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

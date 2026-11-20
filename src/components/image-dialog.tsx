@@ -13,18 +13,23 @@ import {
 } from "./ui/dialog";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { ExternalLink, Github } from "lucide-react";
+import { ArrowUpRight, Github } from "lucide-react";
 import { Badge } from "./ui/badge";
+import Link from "next/link";
 
 function ImageDialog({
   src,
   name,
   description,
+  githubUrl,
+  homepage,
   topics = [],
   language = "",
 }: {
   src: string;
   name: string;
+  githubUrl: string;
+  homepage?: string;
   description: string;
   topics?: string[];
   language?: string;
@@ -40,31 +45,29 @@ function ImageDialog({
           draggable={false}
           fill
           onError={() => setImageError(true)}
-          className={`${
-            topics?.includes("react-native") ? "object-contain" : "object-cover"
-          } select-none ${
-            imageError ? "object-center" : "object-top"
-          } transition-transform hover:scale-105 cursor-pointer`}
+          className={`object-cover select-none ${
+            imageError ? "object-center" : "object-left-top"
+          } cursor-pointer`}
         />
       </DialogTrigger>
-      <DialogContent className="sm:max-w-7xl sm:w-3xl w-full">
+      <DialogContent className="md:max-w-7xl sm:w-3xl w-full p-1 [&>button[data-slot='close']]:hidden">
         <DialogHeader>
-          <DialogTitle className="font-bold tracking-tighter text-2xl capitalize pb-4 text-center">
+          <Image
+            src={imageError ? "/placeholder.svg?height=400&width=600" : src}
+            alt={name}
+            className={`${
+              imageError ? "object-cover" : "object-contain"
+            } rounded-t-lg max-h-[50vh] md:w-7xl sm:w-3xl w-full`}
+            width={1280}
+            height={1024}
+            onError={() => setImageError(true)}
+          />
+        </DialogHeader>
+        <DialogDescription className="px-4">
+          <DialogTitle className="text-black font-bold tracking-tighter text-2xl capitalize pb-1">
             {name.replace("-", " ")}
           </DialogTitle>
-          <DialogDescription>
-            <Image
-              src={imageError ? "/placeholder.svg?height=400&width=600" : src}
-              alt={name}
-              className={`${
-                imageError ? "object-cover" : "object-contain"
-              } mx-auto rounded-md max-h-[50vh]`}
-              width={1024}
-              height={1024}
-              onError={() => setImageError(true)}
-            />
-          </DialogDescription>
-          <p className="text-muted-foreground text-sm max-sm:text-left">
+          <p className="text-muted-foreground text-sm max-sm:text-left mb-3">
             {description}
           </p>
           <div className="flex gap-2 flex-wrap">
@@ -75,17 +78,23 @@ function ImageDialog({
               </Badge>
             ))}
           </div>
-        </DialogHeader>
-        <DialogFooter>
+        </DialogDescription>
+        <DialogFooter className="max-sm:flex-col">
           <DialogClose asChild>
-            <Button variant="secondary">
-              <Github /> Code
+            <Button className="flex-1 rounded-full" asChild>
+              <Link href={githubUrl}>
+                <Github /> GitHub
+              </Link>
             </Button>
           </DialogClose>
           <DialogClose asChild>
-            <Button>
-              <ExternalLink /> Demo
-            </Button>
+            {homepage && (
+              <Button variant="outline" className="rounded-full flex-1" asChild>
+                <Link href={homepage}>
+                  <ArrowUpRight /> Live Demo
+                </Link>
+              </Button>
+            )}
           </DialogClose>
         </DialogFooter>
       </DialogContent>

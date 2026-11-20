@@ -1,26 +1,14 @@
 import React, { useMemo } from "react";
 import { motion } from "framer-motion";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import { ExternalLink, Github } from "lucide-react";
+import { ArrowUpRight, Github } from "lucide-react";
 import { Repository } from "./projects";
 import ImageDialog from "./image-dialog";
 import { Badge } from "./ui/badge";
 
-function ProjectCard({
-  project,
-  index,
-}: {
-  project: Repository;
-  index: number;
-}) {
+function ProjectCard({ project }: { project: Repository }) {
   const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shivam-iyk";
 
   const images = [
@@ -151,8 +139,7 @@ function ProjectCard({
     },
     {
       name: "learn-loop",
-      image:
-        `https://raw.githubusercontent.com/${username}/learn-loop/main/frontend/public/screenshot.png`,
+      image: `https://raw.githubusercontent.com/${username}/learn-loop/main/frontend/public/screenshot.png`,
       repository: `https://github.com/${username}/learn-loop`,
     },
   ];
@@ -174,48 +161,52 @@ function ProjectCard({
   return (
     <motion.div
       key={project.id}
+      className="h-full"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      transition={{ duration: 0.3 }}
       viewport={{ once: true }}
     >
-      <Card className="h-full flex flex-col">
-        <CardHeader>
-          <CardTitle className="capitalize text-center text-xl">
+      <Card className="flex flex-col p-0 border-0 h-full gap-0 shadow-md">
+        <div className="relative aspect-video overflow-hidden rounded-t-md sm:-mb-15 sm:hover:-translate-y-15 transition-transform duration-50 ease-in-out grow">
+          <ImageDialog
+            src={getProjectImage(project.name)}
+            name={project.name}
+            description={project.description || ""}
+            topics={project.topics || []}
+            language={project.language || ""}
+            githubUrl={`https://github.com/${username}/${project.name}`}
+            homepage={project.homepage}
+          />
+        </div>
+        <CardContent className="grow-0 shrink-0 p-2 backdrop-blur-sm bg-muted relative z-10">
+          <div className="absolute -top-6 left-4 h-6 w-30 rounded-t-2xl bg-current text-muted before:absolute before:bottom-0 before:-left-4 before:size-4 before:bg-[radial-gradient(circle_at_0_0,transparent_16px,currentColor_16.5px)] after:absolute after:bottom-0 after:-right-4 after:size-4 after:bg-[radial-gradient(circle_at_100%_0,transparent_16px,currentColor_16.5px)]" />
+          <CardTitle className="capitalize text-xl mb-1">
             {project.name.replace(/-/g, " ")}
           </CardTitle>
-        </CardHeader>
-        <CardContent className="flex-grow">
-          <div className="relative aspect-video overflow-hidden rounded-md mb-4">
-            <ImageDialog
-              src={getProjectImage(project.name)}
-              name={project.name}
-              description={project.description || ""}
-              topics={project.topics || []}
-              language={project.language || ""}
-            />
-          </div>
           <p className="text-muted-foreground line-clamp-3">
             {project.description}
           </p>
           <div className="flex space-between items-center w-full mt-4">
             {project.language && (
-              <Badge variant="secondary" className="mr-2">
-                {project.language}
-              </Badge>
+              <Badge className="mr-2 rounded-full">{project.language}</Badge>
             )}
             <div>
               {topics.length > 0 &&
                 topics.slice(0, 2).map((topic, index) => (
-                  <Badge variant="outline" className="mr-2" key={index}>
+                  <Badge
+                    variant="outline"
+                    className="mr-2 rounded-full"
+                    key={index}
+                  >
                     {topic}
                   </Badge>
                 ))}
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between pt-2">
-          <Button variant="outline" size="sm" asChild>
+        <CardFooter className="flex justify-between py-3 bg-muted rounded-b-xl gap-2">
+          <Button className="flex-1 rounded-full" asChild>
             <Link
               href={project.html_url}
               target="_blank"
@@ -226,14 +217,18 @@ function ProjectCard({
             </Link>
           </Button>
           {project.homepage && (
-            <Button size="sm" asChild>
+            <Button
+              size="icon"
+              variant="outline"
+              className="rounded-full"
+              asChild
+            >
               <Link
                 href={project.homepage}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <ExternalLink className="mr-2 h-4 w-4" />
-                Demo
+                <ArrowUpRight />
               </Link>
             </Button>
           )}
