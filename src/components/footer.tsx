@@ -3,31 +3,14 @@
 import type React from "react";
 
 import Link from "next/link";
-import { Github, Linkedin, Twitter, Heart, Mail, MapPin } from "lucide-react";
+import { Heart, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
+import Socials from "./Socials";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shivam-iyk";
   const mailId = process.env.NEXT_PUBLIC_MAIL_ID || "legendshivam11@gmail.com";
-
-  const socialLinks = [
-    {
-      name: "GitHub",
-      url: username ? `https://github.com/${username}` : "https://github.com/shivam-iyk",
-      icon: <Github className="h-5 w-5" />,
-    },
-    {
-      name: "LinkedIn",
-      url: process.env.NEXT_PUBLIC_LINKEDIN_PROFILE || "https://linkedin.com/in/shivam-iyk",
-      icon: <Linkedin className="h-5 w-5" />,
-    },
-    {
-      name: "Twitter",
-      url: process.env.NEXT_PUBLIC_X_PROFILE || "https://x.com/shivam_iyk",
-      icon: <Twitter className="h-5 w-5" />,
-    },
-  ];
+  const city = process.env.NEXT_PUBLIC_CURRENT_CITY || null;
 
   const contactInfo = [
     {
@@ -39,14 +22,14 @@ export default function Footer() {
     {
       icon: <MapPin className="h-5 w-5 text-primary" />,
       title: "Location",
-      value: "India",
-      link: "https://google.com/maps/place/India",
+      value: `${city ? `${city}, ` : ""}India`,
+      link: `https://google.com/maps/place/${city ? `${city}+` : ""}India`,
     },
   ];
 
   const scrollToSection = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    sectionId: string
+    sectionId: string,
   ) => {
     e.preventDefault();
     const element = document.getElementById(sectionId);
@@ -132,21 +115,13 @@ export default function Footer() {
             <div className="space-y-4">
               <h3 className="text-lg font-bold">Connect</h3>
               <div className="flex space-x-4">
-                {socialLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-                    aria-label={link.name}
-                  >
-                    {link.icon}
-                  </Link>
-                ))}
+                <Socials />
               </div>
             </div>
-            <a href={`https://www.buymeacoffee.com/${process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_USERNAME}`} target="_blank">
+            <a
+              href={`https://www.buymeacoffee.com/${process.env.NEXT_PUBLIC_BUY_ME_A_COFFEE_USERNAME}`}
+              target="_blank"
+            >
               <Image
                 src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
                 alt="Buy Me a Coffee"

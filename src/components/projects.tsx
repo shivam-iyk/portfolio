@@ -2,11 +2,19 @@
 
 import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { Github, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Github, Loader2 } from "lucide-react";
 import Link from "next/link";
 import ProjectCard from "./project-card";
 import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "@/services/api";
+import { cn } from "@/lib/utils";
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+} from "./ui/carousel";
+import { Abril_Fatface } from "next/font/google";
 
 export interface Repository {
   id: number;
@@ -21,16 +29,19 @@ export interface Repository {
   created_at: string;
 }
 
+const abrilFlatface = Abril_Fatface({ weight: ["400"], subsets: ["latin"] });
+
 export default function Projects() {
   const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shivam-iyk";
 
-  const [visibleProjects, setVisibleProjects] = useState<number>(6);
+  const [api, setApi] = useState<CarouselApi>();
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["projects"],
     queryFn: () => getProjects(username),
     staleTime: 1000 * 60 * 15, // 15 minutes
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
   const projects = useMemo(() => {
@@ -50,20 +61,36 @@ export default function Projects() {
     return [...featured, ...excluded];
   }, [data]);
 
-  const handleViewMore = () => {
-    setVisibleProjects((prev) => Math.min(prev + 3, projects.length));
-  };
-
   return (
     <section id="projects" className="py-20 border-t">
-      <div className="container px-4 md:px-6">
-        <div className="flex flex-col items-center text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
-            My Projects
+      <div className="sm:container px-4">
+        <div className="flex justify-between items-center gap-4 z-0">
+          <h2
+            className={cn(
+              "text-3xl md:text-4xl font-bold mb-4",
+              abrilFlatface.className,
+            )}
+          >
+            Projects
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl">
-            Here are some of my recent projects. Check out my GitHub for more!
-          </p>
+          <div className="space-x-2">
+            <Button
+              variant="outline"
+              className="rounded-full size-8"
+              disabled={!api?.canScrollPrev}
+              onClick={() => api?.scrollPrev()}
+            >
+              <ChevronLeft />
+            </Button>
+            <Button
+              variant="outline"
+              className="rounded-full size-8"
+              disabled={!api?.canScrollNext}
+              onClick={() => api?.scrollNext()}
+            >
+              <ChevronRight />
+            </Button>
+          </div>
         </div>
 
         {isLoading ? (
@@ -88,34 +115,22 @@ export default function Projects() {
             </Button>
           </div>
         ) : (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-background">
-              {projects.slice(0, visibleProjects).map((project, index) => (
-                <ProjectCard project={project} index={index} key={index} />
-              ))}
-            </div>
-
-            {visibleProjects < projects.length && (
-              <div className="flex justify-center mt-12">
-                <Button onClick={handleViewMore} size="lg">
-                  View More Projects
-                </Button>
-              </div>
-            )}
-
-            <div className="flex justify-center mt-8">
-              <Button variant="outline" asChild>
-                <Link
-                  href="https://github.com/${username}"
-                  target="_blank"
-                  rel="noopener noreferrer"
+          <Carousel
+            opts={{ align: "start" }}
+            className="w-full"
+            setApi={setApi}
+          >
+            <CarouselContent>
+              {projects.map((project, index) => (
+                <CarouselItem
+                  className="pt-15 pb-2 lg:basis-1/3 sm:basis-1/2"
+                  key={index}
                 >
-                  <Github className="mr-2 h-4 w-4" />
-                  View All on GitHub
-                </Link>
-              </Button>
-            </div>
-          </>
+                  <ProjectCard project={project} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
         )}
       </div>
     </section>

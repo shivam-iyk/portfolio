@@ -1,13 +1,13 @@
 import "./globals.css";
 import type React from "react";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Metadata } from "next";
 import { Toaster } from "@/components/ui/sonner";
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 import TanstackProvider from "@/context/tanstack-provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const lora = Poppins({ weight: ["400", "600", "800", "900"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Shivam's Portfolio",
@@ -53,11 +53,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={lora.className}>
         <TanstackProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >
