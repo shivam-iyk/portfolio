@@ -4,12 +4,16 @@ import type React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail, Twitter } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { Abril_Fatface, Dynalight, Lora } from "next/font/google";
 import { cn, scrollToSection } from "@/lib/utils";
-import CardSwap from "./ui/card-swap";
 import { useTheme } from "next-themes";
-import Grainient from "./ui/grainient";
+import Socials from "./Socials";
+import StarBorder from "./ui/star-border";
+import { Suspense, lazy } from "react";
+
+const CardSwap = lazy(() => import("./ui/card-swap"));
+const Grainient = lazy(() => import("./ui/grainient"));
 
 const dynalight = Dynalight({ subsets: ["latin"], weight: "400" });
 const abrilFlatface = Abril_Fatface({ subsets: ["latin"], weight: "400" });
@@ -17,7 +21,6 @@ const lora = Lora({ subsets: ["latin"], weight: "400" });
 
 export default function Hero() {
   const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shivam-iyk";
-  const mailId = process.env.NEXT_PUBLIC_MAIL_ID || "legendshivam11@gmail.com";
   const resume = process.env.NEXT_PUBLIC_RESUME_URL || null;
 
   const { theme } = useTheme();
@@ -39,64 +42,43 @@ export default function Hero() {
       title: "LastMinPrep",
       image: `https://raw.githubusercontent.com/${username}/lastminprep/main/public/screenshots/home.png`,
     },
-  ];
-
-  const socialLinks = [
     {
-      name: "GitHub",
-      url: username
-        ? `https://github.com/${username}`
-        : "https://github.com/shivam-iyk",
-      icon: <Github className="h-5 w-5" />,
-    },
-    {
-      name: "LinkedIn",
-      url:
-        process.env.NEXT_PUBLIC_LINKEDIN_PROFILE ||
-        "https://linkedin.com/in/shivam-iyk",
-      icon: <Linkedin className="h-5 w-5" />,
-    },
-    {
-      name: "Twitter",
-      url: process.env.NEXT_PUBLIC_X_PROFILE || "https://x.com/shivam_iyk",
-      icon: <Twitter className="h-5 w-5" />,
-    },
-    {
-      name: "Mail",
-      url: `mailto:${mailId}`,
-      icon: <Mail className="h-5 w-5" />,
+      title: "LearnLoop",
+      image: `https://raw.githubusercontent.com/${username}/learn-loop/main/frontend/public/screenshot.png`,
     },
   ];
 
   return (
     <section
       id="hero"
-      className="relative min-h-[95dvh] flex items-center overflow-hidden"
+      className="relative h-screen min-h-[800px] max-h-[1000px] flex items-center overflow-hidden"
     >
       <div className="absolute top-0 left-0 w-full max-h-screen overflow-hidden">
-        <Grainient
-          className="min-h-screen"
-         colors={["#171717", "#397A9B", "#A5DFF2", "#E0F5FC"]}
-          angle={55}
-          flow={0.8}
-          silk={0.35}
-          grainAmount={0.08}
-          type="linear"
-          bands={1}
-          softness={1}
-          scale={1}
-          speed={1}
-          grainSize={1.2}
-          grainAnimated
-          contrast={1}
-          saturation={1}
-          variation={0}
-          interactive
-          stir={1}
-          clickSwirl
-          intro
-          lightMode={true}
-        />
+        <Suspense>
+          <Grainient
+            className="min-h-screen"
+            colors={["#171717", "#397A9B", "#A5DFF2", "#E0F5FC"]}
+            angle={55}
+            flow={0.8}
+            silk={0.35}
+            grainAmount={0.08}
+            type="linear"
+            bands={1}
+            softness={1}
+            scale={1}
+            speed={1}
+            grainSize={1.2}
+            grainAnimated
+            contrast={1}
+            saturation={1}
+            variation={0}
+            interactive
+            stir={1}
+            clickSwirl
+            intro
+            lightMode={true}
+          />
+        </Suspense>
       </div>
       <div className="container md:px-6 z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -108,7 +90,7 @@ export default function Hero() {
             >
               <h2
                 className={cn(
-                  "text-5xl md:text-6xl font-medium mb-2 flex items-center",
+                  "md:text-6xl text-5xl font-medium mb-2 flex items-center",
                   dynalight.className,
                 )}
               >
@@ -116,12 +98,12 @@ export default function Hero() {
               </h2>
               <h1
                 className={cn(
-                  "text-6xl md:text-7xl font-bold tracking-tighter relative w-fit",
+                  "md:text-7xl text-5xl font-bold tracking-tighter relative w-fit",
                   abrilFlatface.className,
                 )}
               >
                 I&apos;m <span className="text-black">Shivam</span>
-                <div className="absolute -rotate-4 bg-[#ffe847] md:w-60 w-50 md:h-20 h-18 top-0 -right-2 -z-10" />
+                <div className="absolute -rotate-4 bg-[#ffe847] md:w-60 w-40 md:h-20 h-14 top-0 -right-2 -z-10 animate" />
               </h1>
             </motion.div>
 
@@ -147,20 +129,35 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-3"
             >
               <Button
                 size="lg"
+                className="h-12 rounded-[12px]"
                 onClick={() => scrollToSection("#projects")}
               >
                 View Projects
               </Button>
               {resume ? (
-                <Button size="lg" variant="outline" asChild>
+                <StarBorder
+                  color="#0369a1"
+                  trailColor="#38bdf8"
+                  duration={4}
+                  direction="clockwise"
+                  stars={1}
+                  trailLength={0.3}
+                  thickness={1.5}
+                  radius={12}
+                  glow={0.6}
+                  hover="lap"
+                  sparkle={false}
+                  clickPulse
+                  theme="light"
+                >
                   <Link href={resume} target="_blank">
                     Resume
                   </Link>
-                </Button>
+                </StarBorder>
               ) : (
                 <Button onClick={() => scrollToSection("#contact")}>
                   Get in Touch
@@ -174,18 +171,7 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.6 }}
               className="flex space-x-4 max-sm:justify-center"
             >
-              {socialLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-all transform hover:scale-110"
-                  aria-label={link.name}
-                >
-                  {link.icon}
-                </Link>
-              ))}
+              <Socials />
             </motion.div>
           </div>
 
@@ -195,16 +181,18 @@ export default function Hero() {
             transition={{ duration: 1 }}
             className="hidden md:block"
           >
-            <CardSwap
-              items={projectCards}
-              width={600}
-              height={400}
-              cardDistance={80}
-              verticalDistance={80}
-              skewAmount={3}
-              depth={80}
-              theme={theme === "dark" ? "dark" : "light"}
-            />
+            <Suspense>
+              <CardSwap
+                items={projectCards}
+                width={600}
+                height={400}
+                cardDistance={80}
+                verticalDistance={80}
+                skewAmount={3}
+                depth={80}
+                theme={theme === "dark" ? "dark" : "light"}
+              />
+            </Suspense>
           </motion.div>
         </div>
 
@@ -217,7 +205,7 @@ export default function Hero() {
               aria-label="Scroll to Skills section"
               onClick={() => scrollToSection("#skills")}
             >
-              <ArrowDown className="text-primary sm:size-8 size-6" />
+              <ArrowDown className="size-6" />
             </Button>
           </div>
         </div>

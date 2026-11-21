@@ -61,7 +61,7 @@ export default function Contact() {
   return (
     <section id="contact" className="bg-[#F1F3F4] relative overflow-hidden">
       {profile && (
-        <div className="absolute inset-0 z-0 [&_canvas]:touch-pan-y max-md:hidden">
+        <div className="absolute inset-0 z-0 [&_canvas]:touch-pan-y max-md:hidden max-h-200">
           <Lanyard
             className="h-full w-full"
             frontImage={profile}

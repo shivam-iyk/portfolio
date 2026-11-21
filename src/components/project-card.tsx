@@ -1,12 +1,13 @@
 import React, { useMemo } from "react";
 import { motion } from "framer-motion";
-import { Card, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { ArrowUpRight, Github } from "lucide-react";
 import { Repository } from "./projects";
 import ImageDialog from "./image-dialog";
 import { Badge } from "./ui/badge";
+import { cn } from "@/lib/utils";
 
 function ProjectCard({ project }: { project: Repository }) {
   const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shivam-iyk";
@@ -74,7 +75,7 @@ function ProjectCard({ project }: { project: Repository }) {
     },
     {
       name: "social-media-backend",
-      image: `https://res.cloudinary.com/dv3qbj0bn/image/upload/v1744524945/portfolio/mu7whyi3poqdfnkqfb30.jpg`,
+      image: `https://raw.githubusercontent.com/${username}/sociial/main/public/hero-dark.png`,
       repository: `https://github.com/${username}/social-media-backend`,
     },
     {
@@ -161,51 +162,59 @@ function ProjectCard({ project }: { project: Repository }) {
   return (
     <motion.div
       key={project.id}
-      className="h-full"
+      className="h-full px-1"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       viewport={{ once: true }}
     >
-      <Card className="flex flex-col p-0 border-0 h-full gap-0 shadow-md">
-        <div className="relative aspect-video overflow-hidden rounded-t-md sm:-mb-15 sm:hover:-translate-y-15 transition-transform duration-50 ease-in-out grow">
-          <ImageDialog
-            src={getProjectImage(project.name)}
-            name={project.name}
-            description={project.description || ""}
-            topics={project.topics || []}
-            language={project.language || ""}
-            githubUrl={`https://github.com/${username}/${project.name}`}
-            homepage={project.homepage}
-          />
+      <Card className="group relative flex h-full flex-col gap-0 border-0 bg-muted p-0 shadow-md">
+        <div className="absolute -top-6 left-7 h-6 w-30 rounded-t-2xl bg-current text-muted drop-shadow-[0_-2px_3px_rgba(0,0,0,0.08)] before:absolute before:bottom-0 before:-left-4 before:size-4 before:bg-[radial-gradient(circle_at_0_0,transparent_16px,currentColor_16.5px)] after:absolute after:bottom-0 after:-right-4 after:size-4 after:bg-[radial-gradient(circle_at_100%_0,transparent_16px,currentColor_16.5px)]" />
+
+        <div className="flex grow flex-col px-2 pt-2">
+          <div className="relative aspect-video overflow-hidden grow rounded-t-lg transition-transform duration-300 ease-out sm:group-hover:-translate-y-15 sm:-mb-15">
+            <ImageDialog
+              src={getProjectImage(project.name)}
+              name={project.name}
+              description={project.description || ""}
+              topics={project.topics || []}
+              language={project.language || ""}
+              githubUrl={`https://github.com/${username}/${project.name}`}
+              homepage={project.homepage}
+            />
+          </div>
         </div>
-        <CardContent className="grow-0 shrink-0 p-2 backdrop-blur-sm bg-muted relative z-10">
-          <div className="absolute -top-6 left-4 h-6 w-30 rounded-t-2xl bg-current text-muted before:absolute before:bottom-0 before:-left-4 before:size-4 before:bg-[radial-gradient(circle_at_0_0,transparent_16px,currentColor_16.5px)] after:absolute after:bottom-0 after:-right-4 after:size-4 after:bg-[radial-gradient(circle_at_100%_0,transparent_16px,currentColor_16.5px)]" />
-          <CardTitle className="capitalize text-xl mb-1">
+
+        <CardContent className="relative z-20 shrink-0 grow-0 bg-muted p-2 shadow-[0_-6px_12px_-6px_rgba(0,0,0,0.15)]">
+          <h2
+            className={cn(
+              "mb-1 text-xl font-semibold capitalize tracking-tight",
+            )}
+          >
             {project.name.replace(/-/g, " ")}
-          </CardTitle>
-          <p className="text-muted-foreground line-clamp-3">
+          </h2>
+          <p className="line-clamp-3 min-h-18 text-muted-foreground">
             {project.description}
           </p>
-          <div className="flex space-between items-center w-full mt-4">
+          <div className="mt-4 flex min-h-6 w-full items-center justify-between">
             {project.language && (
               <Badge className="mr-2 rounded-full">{project.language}</Badge>
             )}
             <div>
-              {topics.length > 0 &&
-                topics.slice(0, 2).map((topic, index) => (
-                  <Badge
-                    variant="outline"
-                    className="mr-2 rounded-full"
-                    key={index}
-                  >
-                    {topic}
-                  </Badge>
-                ))}
+              {topics.slice(0, 2).map((topic, index) => (
+                <Badge
+                  variant="outline"
+                  className="mr-2 rounded-full"
+                  key={index}
+                >
+                  {topic}
+                </Badge>
+              ))}
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between py-3 bg-muted rounded-b-xl gap-2">
+
+        <CardFooter className="gap-2 px-2 py-3 z-20 bg-muted">
           <Button className="flex-1 rounded-full" asChild>
             <Link
               href={project.html_url}

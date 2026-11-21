@@ -29,7 +29,7 @@ export interface Repository {
   created_at: string;
 }
 
-const abrilFlatface = Abril_Fatface({ weight: ["400"], subsets:["latin"] });
+const abrilFlatface = Abril_Fatface({ weight: ["400"], subsets: ["latin"] });
 
 export default function Projects() {
   const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shivam-iyk";
@@ -63,8 +63,8 @@ export default function Projects() {
 
   return (
     <section id="projects" className="py-20 border-t">
-      <div className="container pr-0">
-        <div className="flex justify-between items-center gap-4">
+      <div className="sm:container px-4">
+        <div className="flex justify-between items-center gap-4 z-0">
           <h2
             className={cn(
               "text-3xl md:text-4xl font-bold mb-4",
@@ -115,7 +115,11 @@ export default function Projects() {
             </Button>
           </div>
         ) : (
-          <Carousel className="w-full" setApi={setApi}>
+          <Carousel
+            opts={{ align: "start" }}
+            className="w-full"
+            setApi={setApi}
+          >
             <CarouselContent>
               {projects.map((project, index) => (
                 <CarouselItem

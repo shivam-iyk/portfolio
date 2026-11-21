@@ -47,14 +47,14 @@ export default function Navbar() {
     "overflow-hidden relative bg-[rgba(255, 255, 255, 0.16)] border border-[rgba(255,255,255,0.3)] backdrop-blur-[9px] shadow-[0_8px_32px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.5),inset_0_-1px_0_rgba(255,255,255,0.1),inset_0_0_20px_10px_rgba(255,255,255,1)] before:absolute before:top-0 before:left-0 before:right-0 before:h-[1px] before:bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.8),transparent)] after:absolute after:top-0 after:left-0 after:right-0 after:w-[1px] after:h-full after:bg-[linear-gradient(180deg,rgba(255,255,255,0.8),transparent,rgba(255,255,255,0.3))] ";
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex justify-center">
+    <header className="fixed inset-x-0 top-0 z-50 flex justify-center pointer-events-none">
       <div
         className={`w-full transition-all duration-300 ease-out relative ${
           scrolled ? "mt-3 max-w-7xl px-3" : "mt-0 max-w-full px-0"
         }`}
       >
         <nav
-          className={`flex h-16 items-center justify-between px-4 sm:px-6 transition-all duration-300 ease-out ${glass} ${
+          className={`flex h-16 items-center justify-between px-4 sm:px-6 transition-all duration-300 ease-out pointer-events-auto ${glass} ${
             scrolled
               ? "rounded-full shadow-lg shadow-black/10 dark:shadow-black/40"
               : "rounded-none border-0 shadow-none"
@@ -69,7 +69,7 @@ export default function Navbar() {
               <AvatarImage src={`https://github.com/${username}.png`} />
               <AvatarFallback>S</AvatarFallback>
             </Avatar>
-            <span className="text-lg font-semibold tracking-tight dark:text-white">
+            <span className="text-lg font-extrabold tracking-tighter dark:text-white">
               Shivam
             </span>
           </Link>
@@ -105,7 +105,7 @@ export default function Navbar() {
 
         <div
           id="mobile-menu"
-          className={`mt-2 overflow-hidden rounded-2xl border p-2 shadow-lg shadow-black/10 transition-all duration-200 ease-out md:hidden ${glass} ${
+          className={`mt-2 overflow-hidden rounded-2xl border p-2 shadow-lg shadow-black/10 transition-all duration-200 ease-out md:hidden pointer-events-auto ${glass} ${
             open
               ? "visible translate-y-0 opacity-100"
               : "invisible -translate-y-2 opacity-0"

@@ -45,12 +45,12 @@ function ImageDialog({
           draggable={false}
           fill
           onError={() => setImageError(true)}
-          className={`object-cover select-none ${
+          className={`object-cover select-none rounded-t-lg h-full ${
             imageError ? "object-center" : "object-left-top"
           } cursor-pointer`}
         />
       </DialogTrigger>
-      <DialogContent className="md:max-w-7xl sm:w-3xl w-full p-1 [&>button[data-slot='close']]:hidden">
+      <DialogContent className="md:max-w-7xl sm:w-3xl w-full p-1 [&>button[data-slot='close']]:hidden border-0 focus-visible:outline-none">
         <DialogHeader>
           <Image
             src={imageError ? "/placeholder.svg?height=400&width=600" : src}
@@ -62,23 +62,21 @@ function ImageDialog({
             height={1024}
             onError={() => setImageError(true)}
           />
-        </DialogHeader>
-        <DialogDescription className="px-4">
-          <DialogTitle className="text-black font-bold tracking-tighter text-2xl capitalize pb-1">
+          <DialogTitle className="text-black font-bold tracking-tighter text-2xl capitalize pb-1 px-2">
             {name.replace("-", " ")}
           </DialogTitle>
-          <p className="text-muted-foreground text-sm max-sm:text-left mb-3">
+          <DialogDescription className="text-muted-foreground text-sm max-sm:text-left mb-3 px-2">
             {description}
-          </p>
-          <div className="flex gap-2 flex-wrap">
-            {language.length > 0 && <Badge>{language}</Badge>}
-            {topics.map((topic, index) => (
-              <Badge variant="secondary" key={index}>
-                {topic}
-              </Badge>
-            ))}
-          </div>
-        </DialogDescription>
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex gap-2 flex-wrap px-4">
+          {language.length > 0 && <Badge>{language}</Badge>}
+          {topics.map((topic, index) => (
+            <Badge variant="secondary" key={index}>
+              {topic}
+            </Badge>
+          ))}
+        </div>
         <DialogFooter className="max-sm:flex-col">
           <DialogClose asChild>
             <Button className="flex-1 rounded-full" asChild>

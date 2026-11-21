@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
 import TanstackProvider from "@/context/tanstack-provider";
 
-const lora = Poppins({ weight: ["400"], subsets: ["latin"] });
+const lora = Poppins({ weight: ["400", "600", "800", "900"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Shivam's Portfolio",

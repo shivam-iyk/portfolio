@@ -3,16 +3,14 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Layout, Server, Cog } from "lucide-react";
-import localFont from "next/font/local";
 import { cn } from "@/lib/utils";
-import { Abril_Fatface } from "next/font/google";
-import GridMotion from "./grid-motion";
+import { Abril_Fatface, Lora } from "next/font/google";
+import { lazy, Suspense } from "react";
 
-const abrilFlatface = Abril_Fatface({ weight: ["400"], subsets:["latin"] });
+const GridMotion = lazy(() => import("./grid-motion"));
 
-const transcity = localFont({
-  src: "../fonts/transcity.otf",
-});
+const lora = Lora({ weight: ["700"], subsets: ["latin"] });
+const abrilFlatface = Abril_Fatface({ weight: ["400"], subsets: ["latin"] });
 
 const techLogos = [
   {
@@ -267,7 +265,7 @@ export default function Skills() {
         >
           Skills
         </h2>
-        <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
           <div className="flex flex-col gap-8 my-4">
             {skillCategories.map((category, index) => (
               <motion.div
@@ -279,7 +277,12 @@ export default function Skills() {
                 className="bg-card rounded-lg p-6 shadow-sm border"
               >
                 <div className="flex flex-col items-center mb-6">
-                  <h3 className={cn("text-3xl", transcity.className)}>
+                  <h3
+                    className={cn(
+                      "sm:text-3xl text-2xl font-bold tracking-tight",
+                      lora.className,
+                    )}
+                  >
                     {category.title}
                   </h3>
                 </div>
@@ -311,24 +314,26 @@ export default function Skills() {
               </motion.div>
             ))}
           </div>
-          <GridMotion
-          className="max-lg:hidden"
-            items={techLogos.map((item) => item.image)}
-            rows={6}
-            aspectRatio={1}
-            gap={16}
-            radius={14}
-            angle={-10}
-            tilt={0}
-            speed={24}
-            direction="alternate"
-            parallax={0.5}
-            spotlight={0.6}
-            dim={0.1}
-            fade={0.5}
-            grayscale={false}
-            theme="light"
-          />
+          <Suspense>
+            <GridMotion
+              className="max-md:hidden"
+              items={techLogos.map((item) => item.image)}
+              rows={6}
+              aspectRatio={1}
+              gap={16}
+              radius={14}
+              angle={-10}
+              tilt={0}
+              speed={24}
+              direction="alternate"
+              parallax={0.5}
+              spotlight={0.6}
+              dim={0.1}
+              fade={0.5}
+              grayscale={false}
+              theme="light"
+            />
+          </Suspense>
         </div>
       </div>
     </section>

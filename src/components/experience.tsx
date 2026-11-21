@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import {
   motion,
@@ -20,7 +20,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import LetterGlitch from "./ui/letter-glitch";
-import { Abril_Fatface } from "next/font/google";
+import { Abril_Fatface, Lora } from "next/font/google";
 
 type TimelineItem = {
   type: "work" | "education";
@@ -33,6 +33,10 @@ type TimelineItem = {
 };
 
 const abrilFlatface = Abril_Fatface({ weight: ["400"], subsets: ["latin"] });
+const lora = Lora({
+  weight: ["600"],
+  subsets: ["latin"],
+});
 
 const experiences: TimelineItem[] = [
   {
@@ -78,19 +82,41 @@ const experiences: TimelineItem[] = [
 ];
 
 // WAVE GEOMETRY
-const ROW = 320; // height of each timeline row
+const ROW_DESKTOP = 320; // row height from the md breakpoint up
+const ROW_MOBILE = 550; // taller on mobile: cards are narrower and wrap more
 const W = 96; // width of the wave column
 const LEFT_X = 16; // trough (left extreme)
 const RIGHT_X = W - 16; // peak (right extreme)
 const MID_X = W / 2;
-const H = experiences.length * ROW;
 
-const points = experiences.map((_, i) => ({
-  x: i % 2 === 0 ? RIGHT_X : LEFT_X,
-  y: ROW * (i + 0.5),
-}));
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-function buildPath() {
+// Row height depends on the viewport, and the SVG geometry depends on the
+// row height, so it has to live in state rather than a CSS breakpoint class.
+function useRow() {
+  const [row, setRow] = useState(ROW_DESKTOP);
+
+  useIsomorphicLayoutEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)"); // Tailwind md
+    const update = () => setRow(mq.matches ? ROW_DESKTOP : ROW_MOBILE);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  return row;
+}
+
+function buildWave(count: number, row: number) {
+  const H = count * row;
+  const points = Array.from({ length: count }, (_, i) => ({
+    x: i % 2 === 0 ? RIGHT_X : LEFT_X,
+    y: row * (i + 0.5),
+  }));
+
+  if (!points.length) return { H, points, path: "" };
+
   const first = points[0];
   let d = `M ${MID_X} 0 C ${MID_X} ${first.y / 2}, ${first.x} ${first.y / 2}, ${first.x} ${first.y}`;
   for (let i = 1; i < points.length; i++) {
@@ -102,19 +128,20 @@ function buildPath() {
   const last = points[points.length - 1];
   const my = (last.y + H) / 2;
   d += ` C ${last.x} ${my}, ${MID_X} ${my}, ${MID_X} ${H}`;
-  return d;
-}
 
-const wavePath = buildPath();
+  return { H, points, path: d };
+}
 
 function Dot({
   x,
   y,
+  H,
   progress,
   type,
 }: {
   x: number;
   y: number;
+  H: number;
   progress: MotionValue<number>;
   type: TimelineItem["type"];
 }) {
@@ -138,6 +165,12 @@ function Dot({
 
 export default function Experience() {
   const trackRef = useRef<HTMLDivElement>(null);
+  const row = useRow();
+
+  const { H, points, path } = useMemo(
+    () => buildWave(experiences.length, row),
+    [row],
+  );
 
   const { scrollYProgress } = useScroll({
     target: trackRef,
@@ -173,6 +206,7 @@ export default function Experience() {
           lightMode={true}
         />
       </div>
+
       <div className="container px-4 md:px-6 relative py-20">
         <div className="flex flex-col items-center text-center mb-12">
           <h2
@@ -186,6 +220,7 @@ export default function Experience() {
         </div>
 
         <div ref={trackRef} className="relative max-w-4xl mx-auto">
+          {/* Wave column */}
           <div
             className="absolute top-0 left-0 md:left-1/2 md:-translate-x-1/2 pointer-events-none"
             style={{ width: W, height: H }}
@@ -198,15 +233,17 @@ export default function Experience() {
               fill="none"
               className="absolute inset-0 text-primary overflow-visible"
             >
+              {/* faint full track */}
               <path
-                d={wavePath}
+                d={path}
                 stroke="currentColor"
                 strokeOpacity={0.15}
                 strokeWidth={3}
                 strokeLinecap="round"
               />
+              {/* animated path, completes as you scroll */}
               <motion.path
-                d={wavePath}
+                d={path}
                 stroke="currentColor"
                 strokeWidth={3}
                 strokeLinecap="round"
@@ -219,19 +256,21 @@ export default function Experience() {
                 key={i}
                 x={p.x}
                 y={p.y}
+                H={H}
                 progress={progress}
                 type={experiences[i].type}
               />
             ))}
           </div>
 
+          {/* Cards */}
           {experiences.map((exp, index) => {
             const onRight = points[index].x === RIGHT_X;
             return (
               <div
                 key={index}
                 className="relative flex items-center"
-                style={{ height: ROW }}
+                style={{ height: row }}
               >
                 <motion.div
                   initial={{ opacity: 0, x: onRight ? 30 : -30 }}
@@ -243,7 +282,7 @@ export default function Experience() {
                   }`}
                 >
                   <Card>
-                    <CardHeader className="flex items-center gap-4">
+                    <CardHeader className="flex max-sm:flex-col sm:items-center gap-4">
                       <Image
                         src={exp.image}
                         alt=""
@@ -253,10 +292,15 @@ export default function Experience() {
                       />
                       <div className="flex flex-1 justify-between items-start flex-col gap-2">
                         <div>
-                          <CardTitle className="text-xl font-bold">
+                          <CardTitle
+                            className={cn(
+                              "sm:text-xl text-lg font-bold tracking-tight",
+                              lora.className,
+                            )}
+                          >
                             {exp.title}
                           </CardTitle>
-                          <CardDescription className="text-lg font-medium text-primary">
+                          <CardDescription className="sm:text-lg font-medium text-primary">
                             {exp.company}
                           </CardDescription>
                         </div>

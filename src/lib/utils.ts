@@ -6,7 +6,10 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const scrollToSection = (id: string) => {
-  const element = document.getElementById(id);
-  if (!element) return;
+  const element = document.querySelector(id);
+  if (!element) {
+    console.log("Element not found");
+    return;
+  }
   element.scrollIntoView({ behavior: "smooth" });
 };
