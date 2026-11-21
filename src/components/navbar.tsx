@@ -9,11 +9,11 @@ import { Equal, X } from "lucide-react";
 import { scrollToSection } from "@/lib/utils";
 
 const navItems = [
-  { name: "Home", href: "#hero", id: "hero" },
-  { name: "Skills", href: "#skills", id: "skills" },
-  { name: "Experience", href: "#experience", id: "experience" },
-  { name: "Projects", href: "#projects", id: "projects" },
-  { name: "Contact", href: "#contact", id: "contact" },
+  { name: "Home", href: "#hero", id: "#hero" },
+  { name: "Skills", href: "#skills", id: "#skills" },
+  { name: "Experience", href: "#experience", id: "#experience" },
+  { name: "Projects", href: "#projects", id: "#projects" },
+  { name: "Contact", href: "#contact", id: "#contact" },
 ];
 
 export default function Navbar() {

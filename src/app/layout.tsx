@@ -7,7 +7,10 @@ import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
 import TanstackProvider from "@/context/tanstack-provider";
 
-const lora = Poppins({ weight: ["400", "600", "800", "900"], subsets: ["latin"] });
+const lora = Poppins({
+  weight: ["400", "600", "800", "900"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Shivam's Portfolio",
@@ -52,7 +55,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="light" suppressHydrationWarning>
       <body className={lora.className}>
         <TanstackProvider>
           <ThemeProvider
