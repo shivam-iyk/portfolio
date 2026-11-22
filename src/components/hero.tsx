@@ -8,7 +8,7 @@ import { ArrowDown } from "lucide-react";
 import { Abril_Fatface, Dynalight, Lora } from "next/font/google";
 import { cn, scrollToSection } from "@/lib/utils";
 import { useTheme } from "next-themes";
-import Socials from "./Socials";
+import Socials from "./socials";
 import StarBorder from "./ui/star-border";
 import { Suspense, lazy } from "react";
 

@@ -3,16 +3,27 @@
 import type React from "react";
 
 import Link from "next/link";
-import { Heart, Mail, MapPin } from "lucide-react";
+import { Heart, Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
-import Socials from "./Socials";
+import Socials from "./socials";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const mailId = process.env.NEXT_PUBLIC_MAIL_ID || "legendshivam11@gmail.com";
   const city = process.env.NEXT_PUBLIC_CURRENT_CITY || null;
+  const phone = process.env.NEXT_PUBLIC_PHONE || null;
 
   const contactInfo = [
+    ...(phone
+      ? [
+          {
+            icon: <Phone className="h-5 w-5 text-primary" />,
+            title: "Phone",
+            value: phone,
+            link: `tel:${phone}`,
+          },
+        ]
+      : []),
     {
       icon: <Mail className="h-5 w-5 text-primary" />,
       title: "Email",

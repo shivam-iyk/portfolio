@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { Abril_Fatface, Lora } from "next/font/google";
 import { lazy, Suspense } from "react";
 
-const GridMotion = lazy(() => import("./grid-motion"));
+const GridMotion = lazy(() => import("./ui/grid-motion"));
 
 const lora = Lora({ weight: ["700"], subsets: ["latin"] });
 const abrilFlatface = Abril_Fatface({ weight: ["400"], subsets: ["latin"] });
