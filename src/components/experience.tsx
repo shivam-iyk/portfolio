@@ -81,24 +81,21 @@ const experiences: TimelineItem[] = [
   },
 ];
 
-// WAVE GEOMETRY
-const ROW_DESKTOP = 320; // row height from the md breakpoint up
-const ROW_MOBILE = 550; // taller on mobile: cards are narrower and wrap more
-const W = 96; // width of the wave column
-const LEFT_X = 16; // trough (left extreme)
-const RIGHT_X = W - 16; // peak (right extreme)
+const ROW_DESKTOP = 320;
+const ROW_MOBILE = 550;
+const W = 96;
+const LEFT_X = 16;
+const RIGHT_X = W - 16;
 const MID_X = W / 2;
 
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-// Row height depends on the viewport, and the SVG geometry depends on the
-// row height, so it has to live in state rather than a CSS breakpoint class.
 function useRow() {
   const [row, setRow] = useState(ROW_DESKTOP);
 
   useIsomorphicLayoutEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)"); // Tailwind md
+    const mq = window.matchMedia("(min-width: 768px)");
     const update = () => setRow(mq.matches ? ROW_DESKTOP : ROW_MOBILE);
     update();
     mq.addEventListener("change", update);
@@ -220,7 +217,6 @@ export default function Experience() {
         </div>
 
         <div ref={trackRef} className="relative max-w-4xl mx-auto">
-          {/* Wave column */}
           <div
             className="absolute top-0 left-0 md:left-1/2 md:-translate-x-1/2 pointer-events-none"
             style={{ width: W, height: H }}
@@ -233,7 +229,6 @@ export default function Experience() {
               fill="none"
               className="absolute inset-0 text-primary overflow-visible"
             >
-              {/* faint full track */}
               <path
                 d={path}
                 stroke="currentColor"
@@ -241,7 +236,6 @@ export default function Experience() {
                 strokeWidth={3}
                 strokeLinecap="round"
               />
-              {/* animated path, completes as you scroll */}
               <motion.path
                 d={path}
                 stroke="currentColor"
@@ -263,7 +257,6 @@ export default function Experience() {
             ))}
           </div>
 
-          {/* Cards */}
           {experiences.map((exp, index) => {
             const onRight = points[index].x === RIGHT_X;
             return (
