@@ -214,7 +214,7 @@ function ProjectCard({ project }: { project: Repository }) {
           </div>
         </CardContent>
 
-        <CardFooter className="gap-2 px-2 py-3 z-20 bg-muted">
+        <CardFooter className="gap-2 px-2 py-3 z-20">
           <Button className="flex-1 rounded-full" asChild>
             <Link
               href={project.html_url}
