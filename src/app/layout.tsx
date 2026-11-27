@@ -24,8 +24,8 @@ export const metadata: Metadata = {
     siteName: "Shivam",
     images: [
       {
-        url: `/opengraph-image.jpg`,
-        type: "image/jpg",
+        url: "/opengraph-image.png",
+        type: "image/png",
         width: 1200,
         height: 630,
       },
@@ -36,12 +36,12 @@ export const metadata: Metadata = {
     title: "Shivam",
     description:
       "A passionate developer focused on creating beautiful and functional web experiences.",
-    creator: "@sethshivam11",
+    creator: "@shivam_iyk",
     siteId: "765045797750706176",
     images: [
       {
-        url: `/opengraph-image.jpg`,
-        type: "image/jpg",
+        url: "/opengraph-image.png",
+        type: "image/png",
         width: 1200,
         height: 630,
       },
